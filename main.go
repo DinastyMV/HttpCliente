@@ -1,32 +1,41 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"net/http"
 )
 
-const urlAPI = "https://dog.ceo/api/breeds/image/random"
+func main() {
+	var sair bool = false
 
-func mostrarImagem() {
-	response, err := http.Get(urlAPI)
-	if err != nil {
-		fmt.Println("Erro ao buscar imagem: ", err)
-		return
+	for sair != true {
+		sair = inicio()
 	}
-	defer response.Body.Close()
-
-	var imagem DogResponse
-
-	if err := json.NewDecoder(response.Body).Decode(&imagem); err != nil {
-		fmt.Println("Erro ao decodificar imagem: ", err)
-		return
-	}
-
-	fmt.Printf("Messagem: %s\nStatus: %s\n", imagem.Message, imagem.Status)
-
 }
 
-func main() {
-	mostrarImagem()
+func inicio() bool {
+	fmt.Println("Qual operação deseja realizar:")
+	fmt.Println("1 - Imagem Aleatória")
+	fmt.Println("2 - Imagem Aleatória por raça")
+	fmt.Println("9 - Sair")
+
+	var input int8
+	fmt.Scanln(&input)
+
+	switch input {
+	case 1:
+		mostrarImagemAleatória()
+		return false
+	case 2:
+		fmt.Println("Digite a raça do cachorro:")
+		var raca string
+		fmt.Scanln(&raca)
+		mostrarImagemAleatoriaPorRaca(raca)
+		return false
+	case 9:
+		fmt.Println("Saindo...")
+		return true
+	default:
+		fmt.Println("Entrada inválida! Tente novamente.")
+		return false
+	}
 }
