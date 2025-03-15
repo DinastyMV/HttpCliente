@@ -15,6 +15,10 @@ func mostrarImagemAleatória() {
 	}
 	defer response.Body.Close()
 
+	if response.StatusCode != http.StatusOK {
+		fmt.Println("Erro: resposta da API com status: ", response.StatusCode)
+	}
+
 	var imagem DogResponse
 
 	if err := json.NewDecoder(response.Body).Decode(&imagem); err != nil {
@@ -22,7 +26,7 @@ func mostrarImagemAleatória() {
 		return
 	}
 
-	fmt.Printf("Messagem: %s\nStatus: %s\n", imagem.Message, imagem.Status)
+	fmt.Printf("Imagem da raça: %s\nStatus: %s\n", imagem.Message, imagem.Status)
 
 }
 
@@ -39,6 +43,10 @@ func mostrarImagemAleatoriaPorRaca(raca string, subRaca string) {
 	}
 	defer response.Body.Close()
 
+	if response.StatusCode != http.StatusOK {
+		fmt.Println("Erro: resposta da API com status: ", response.StatusCode)
+	}
+
 	var imagem DogResponse
 
 	if err := json.NewDecoder(response.Body).Decode(&imagem); err != nil {
@@ -46,5 +54,5 @@ func mostrarImagemAleatoriaPorRaca(raca string, subRaca string) {
 		return
 	}
 
-	fmt.Printf("Message: %s\nStatus: %s", imagem.Message, imagem.Status)
+	fmt.Printf("Imagem da raça: %s\nStatus: %s", imagem.Message, imagem.Status)
 }
