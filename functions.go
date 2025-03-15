@@ -26,9 +26,13 @@ func mostrarImagemAleatória() {
 
 }
 
-func mostrarImagemAleatoriaPorRaca(raca string) {
+func mostrarImagemAleatoriaPorRaca(raca string, subRaca string) {
 	const url string = "https://dog.ceo/api/breed/"
-	response, err := http.Get(url + raca + "/images/random")
+	urlCompleta := url + raca + "/" + subRaca + "/images/random"
+	if subRaca == "" {
+		urlCompleta = url + raca + "/images/random"
+	}
+	response, err := http.Get(urlCompleta)
 	if err != nil {
 		fmt.Println("Erro ao buscar imagem por raça: ", err)
 		return
