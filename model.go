@@ -1,7 +1,6 @@
 package main
 
-import "fmt"
-
-func SayHello() {
-	fmt.Println("Hello!")
+type DogResponse struct {
+	Message string `json:"message"`
+	Status  string `json:"status"`
 }

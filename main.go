@@ -1,23 +1,32 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
-func main() {
-	fmt.Println("Primeiro projeto em Go")
-	SayHello()
+const urlAPI = "https://dog.ceo/api/breeds/image/random"
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World!\n")
-	})
-
-	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Bem vindo a página de users!")
-	})
-
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		fmt.Println("Error: ", err)
+func mostrarImagem() {
+	response, err := http.Get(urlAPI)
+	if err != nil {
+		fmt.Println("Erro ao buscar imagem: ", err)
+		return
 	}
+	defer response.Body.Close()
+
+	var imagem DogResponse
+
+	if err := json.NewDecoder(response.Body).Decode(&imagem); err != nil {
+		fmt.Println("Erro ao decodificar imagem: ", err)
+		return
+	}
+
+	fmt.Printf("Messagem: %s\nStatus: %s\n", imagem.Message, imagem.Status)
+
+}
+
+func main() {
+	mostrarImagem()
 }
